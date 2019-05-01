@@ -2,12 +2,12 @@
 knitr::opts_chunk$set(echo = TRUE)
 knitr::opts_chunk$set(cache= FALSE)
 
-## ------------------------------------------------------------------------
+## ----message=FALSE-------------------------------------------------------
 library(rangeModelMetadata)
 library(raster)
 
 ## ------------------------------------------------------------------------
-rmm <- rmmTemplate(family=c('obligate'))
+rmm <- rmmTemplate(family=c('base'))
 
 rmm$authorship$rmmName <- 'Owens_2015_Gadids'
 rmm$authorship$names <- 'Owens, Hannah'
@@ -73,18 +73,18 @@ rmm$dataPrep$pointInPolygon$rule <- "Remove points outside training region of sp
 rmm$dataPrep$spatialThin$rule <- "Reduced spatial resolution of points to match resolution of environmental data (1 X 1 resolution)."
 
 ## ------------------------------------------------------------------------
-rmm$model$algorithm <- "maxent"
-rmm$model$algorithmCitation <- '@inproceedings{phillips2004maximum, title={A maximum entropy approach to species distribution modeling}, author={Phillips, Steven J and Dudik, Miroslav and Schapire, Robert E}, booktitle={Proceedings of the twenty-first international conference on Machine learning},pages={83},year={2004},organization={ACM}}'
-rmm$model$maxent$featureSet <- "LQP"
-rmm$model$maxent$notes <- "Ten bootstrap replicates trained with 50% of occurrence points chosen using random seed, maximum of 10000 iterations"
+rmm$modelFit$algorithm <- "maxent"
+rmm$modelFit$algorithmCitation <- '@inproceedings{phillips2004maximum, title={A maximum entropy approach to species distribution modeling}, author={Phillips, Steven J and Dudik, Miroslav and Schapire, Robert E}, booktitle={Proceedings of the twenty-first international conference on Machine learning},pages={83},year={2004},organization={ACM}}'
+rmm$modelFit$maxent$featureSet <- "LQP"
+rmm$modelFit$maxent$notes <- "Ten bootstrap replicates trained with 50% of occurrence points chosen using random seed, maximum of 10000 iterations"
 
 ## ------------------------------------------------------------------------
-rmm$output$prediction$units <- "absolute probability"
-rmm$output$transfer$environment1$units <- "absolute probability"
-rmm$output$transfer$environment1$extrapolation <- "No clamping or extrapolation"
+rmm$prediction$continuous$units <- "absolute probability"
+rmm$prediction$transfer$environment1$units <- "absolute probability"
+rmm$prediction$transfer$environment1$extrapolation <- "No clamping or extrapolation"
 
 ## ------------------------------------------------------------------------
-rmm$performance$notes <- "Inferred distribution congruent with known ranges for all species."
+rmm$evaluation$notes <- "Inferred distribution congruent with known ranges for all species."
 
 ## ------------------------------------------------------------------------
 rmmClean <- rmmCleanNULLs(rmm)

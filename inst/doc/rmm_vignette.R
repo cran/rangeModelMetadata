@@ -1,14 +1,14 @@
 ## ----setup, include=FALSE------------------------------------------------
 knitr::opts_chunk$set(echo = TRUE)
 
-## ------------------------------------------------------------------------
+## ----message=FALSE-------------------------------------------------------
 library(rangeModelMetadata)
 library(sp)
-library(dplyr)
 library(spocc)
+library(dplyr)
 
 ## ------------------------------------------------------------------------
-rmm1=rmmTemplate(family=c('obligate')) 
+rmm1=rmmTemplate(family=c('base')) 
 str(rmm1)
 
 ## ------------------------------------------------------------------------
@@ -18,13 +18,13 @@ str(rmm2)
 ## ------------------------------------------------------------------------
 rmmSuggest('dataPrep',fullFieldDepth=FALSE)
 rmmSuggest('dataPrep',fullFieldDepth=TRUE) # for all fields below the specified one
-rmmSuggest('dataPrep$errors$duplicateRemoval')
-rmmSuggest('dataPrep$errors$duplicateRemoval$rule')
+rmmSuggest('dataPrep$biological$duplicateRemoval')
+rmmSuggest('dataPrep$biological$duplicateRemoval$rule')
 
 ## ------------------------------------------------------------------------
-rmmSuggest('model')
-rmmSuggest('model$maxent$')
-rmmSuggest('$model$maxent$featureSet')
+rmmSuggest('modelFit')
+rmmSuggest('modelFit$maxent')
+rmmSuggest('$modelFit$maxent$featureSet')
 
 ## ------------------------------------------------------------------------
 rmm=rmmTemplate()
@@ -63,7 +63,7 @@ rmmCheckValue(rmm = rmm1)
 rmmCheckValueOutput<-rmmCheckValue(rmm = rmm1,returnData = TRUE)
 
 ## ------------------------------------------------------------------------
-# rmmCheckFinalize(rmm, family=c('base','obligate'))
+rmmCheckFinalize(rmm, family='base')
 
 ## ----eval=F--------------------------------------------------------------
 #  outFile='~/Desktop/demo_rmmToCSV.csv'

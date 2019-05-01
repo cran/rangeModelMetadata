@@ -12,14 +12,14 @@
 
 <meta name="author" content="Hannah Owens, Cory Merow" />
 
-<meta name="date" content="2018-10-09" />
+<meta name="date" content="2019-04-30" />
 
 <title>rangeModelMetaData with Multiple Species</title>
 
 
 
 <style type="text/css">code{white-space: pre;}</style>
-<style type="text/css">
+<style type="text/css" data-origin="pandoc">
 div.sourceCode { overflow-x: auto; }
 table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
   margin: 0; padding: 0; vertical-align: baseline; border: none; }
@@ -55,7 +55,29 @@ code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
 code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
 code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+
 </style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' || rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
 
 
 
@@ -70,7 +92,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">rangeModelMetaData with Multiple Species</h1>
 <h4 class="author"><em>Hannah Owens, Cory Merow</em></h4>
-<h4 class="date"><em>2018-10-09</em></h4>
+<h4 class="date"><em>2019-04-30</em></h4>
 
 
 <div id="TOC">
@@ -85,20 +107,11 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </ul>
 </div>
 
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(rangeModelMetadata)</code></pre></div>
-<pre><code>## Type, vignette(&quot;rmm_directory&quot;) for an overview of functions
-## 
-##   vignette(&quot;rmm_vignette&quot;) for using the functions 
-## 
-##   vignette(&quot;rmm_workflow&quot;) for incorporating rmm in a range modeling workflow, or
-## 
-##   vignette(&quot;rmm_Multispeices&quot;) for including multiple species in a single rmm object</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(raster)</code></pre></div>
-<pre><code>## Loading required package: sp</code></pre>
-<pre><code>## Warning: package 'sp' was built under R version 3.4.4</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(rangeModelMetadata)
+<span class="kw">library</span>(raster)</code></pre></div>
 <div id="authorship" class="section level1">
 <h1>Authorship</h1>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rmm &lt;-<span class="st"> </span><span class="kw">rmmTemplate</span>(<span class="dt">family=</span><span class="kw">c</span>(<span class="st">'obligate'</span>))
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rmm &lt;-<span class="st"> </span><span class="kw">rmmTemplate</span>(<span class="dt">family=</span><span class="kw">c</span>(<span class="st">'base'</span>))
 
 rmm<span class="op">$</span>authorship<span class="op">$</span>rmmName &lt;-<span class="st"> 'Owens_2015_Gadids'</span>
 rmm<span class="op">$</span>authorship<span class="op">$</span>names &lt;-<span class="st"> 'Owens, Hannah'</span>
@@ -163,20 +176,20 @@ rmm<span class="op">$</span>dataPrep<span class="op">$</span>spatialThin<span cl
 </div>
 <div id="model" class="section level1">
 <h1>Model</h1>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rmm<span class="op">$</span>model<span class="op">$</span>algorithm &lt;-<span class="st"> &quot;maxent&quot;</span>
-rmm<span class="op">$</span>model<span class="op">$</span>algorithmCitation &lt;-<span class="st"> '@inproceedings{phillips2004maximum, title={A maximum entropy approach to species distribution modeling}, author={Phillips, Steven J and Dudik, Miroslav and Schapire, Robert E}, booktitle={Proceedings of the twenty-first international conference on Machine learning},pages={83},year={2004},organization={ACM}}'</span>
-rmm<span class="op">$</span>model<span class="op">$</span>maxent<span class="op">$</span>featureSet &lt;-<span class="st"> &quot;LQP&quot;</span>
-rmm<span class="op">$</span>model<span class="op">$</span>maxent<span class="op">$</span>notes &lt;-<span class="st"> &quot;Ten bootstrap replicates trained with 50% of occurrence points chosen using random seed, maximum of 10000 iterations&quot;</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rmm<span class="op">$</span>modelFit<span class="op">$</span>algorithm &lt;-<span class="st"> &quot;maxent&quot;</span>
+rmm<span class="op">$</span>modelFit<span class="op">$</span>algorithmCitation &lt;-<span class="st"> '@inproceedings{phillips2004maximum, title={A maximum entropy approach to species distribution modeling}, author={Phillips, Steven J and Dudik, Miroslav and Schapire, Robert E}, booktitle={Proceedings of the twenty-first international conference on Machine learning},pages={83},year={2004},organization={ACM}}'</span>
+rmm<span class="op">$</span>modelFit<span class="op">$</span>maxent<span class="op">$</span>featureSet &lt;-<span class="st"> &quot;LQP&quot;</span>
+rmm<span class="op">$</span>modelFit<span class="op">$</span>maxent<span class="op">$</span>notes &lt;-<span class="st"> &quot;Ten bootstrap replicates trained with 50% of occurrence points chosen using random seed, maximum of 10000 iterations&quot;</span></code></pre></div>
 </div>
 <div id="output" class="section level1">
 <h1>Output</h1>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rmm<span class="op">$</span>output<span class="op">$</span>prediction<span class="op">$</span>units &lt;-<span class="st"> &quot;absolute probability&quot;</span>
-rmm<span class="op">$</span>output<span class="op">$</span>transfer<span class="op">$</span>environment1<span class="op">$</span>units &lt;-<span class="st"> &quot;absolute probability&quot;</span>
-rmm<span class="op">$</span>output<span class="op">$</span>transfer<span class="op">$</span>environment1<span class="op">$</span>extrapolation &lt;-<span class="st"> &quot;No clamping or extrapolation&quot;</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rmm<span class="op">$</span>prediction<span class="op">$</span>continuous<span class="op">$</span>units &lt;-<span class="st"> &quot;absolute probability&quot;</span>
+rmm<span class="op">$</span>prediction<span class="op">$</span>transfer<span class="op">$</span>environment1<span class="op">$</span>units &lt;-<span class="st"> &quot;absolute probability&quot;</span>
+rmm<span class="op">$</span>prediction<span class="op">$</span>transfer<span class="op">$</span>environment1<span class="op">$</span>extrapolation &lt;-<span class="st"> &quot;No clamping or extrapolation&quot;</span></code></pre></div>
 </div>
 <div id="performance" class="section level1">
 <h1>Performance</h1>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rmm<span class="op">$</span>performance<span class="op">$</span>notes &lt;-<span class="st"> &quot;Inferred distribution congruent with known ranges for all species.&quot;</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rmm<span class="op">$</span>evaluation<span class="op">$</span>notes &lt;-<span class="st"> &quot;Inferred distribution congruent with known ranges for all species.&quot;</span></code></pre></div>
 </div>
 <div id="tidying-it-all-up" class="section level1">
 <h1>Tidying it all up</h1>
@@ -220,31 +233,31 @@ rmm<span class="op">$</span>output<span class="op">$</span>transfer<span class="
 ## Minimum Sea Ice Concentration; Maximum Sea Ice Concentration; Mean Mixed Layer Depth; Minimum Mixed Layer Depth; Maximum Mixed Layer Depth; Mean Bottom Salinity; Minimum Bottom Salinity; Maximum Bottom Salinity; Mean Surface Salinity; Minimum Surface Salinity; Maximum Surface Salinity; Mean Bottom Temperature; Minimum Bottom Temperature; Maximum Bottom Temperature; Mean Surface Temperature; Minimum Surface Temperature; Maximum Surface Temperature
 ##  
 ## ==========================================
-## For the field rmm$model$algorithm
+## For the field rmm$modelFit$algorithm
 ##  The following entries appear accurate:
 ## 
 ##  maxent
 ##  
 ## ==========================================
-## For the field rmm$model$maxent$featureSet
+## For the field rmm$modelFit$maxent$featureSet
 ##  The following entries appear accurate:
 ## 
 ##  LQP
 ##  
 ## ==========================================
-## For the field rmm$output$prediction$units
+## For the field rmm$prediction$continuous$units
 ##  The following entries appear accurate:
 ## 
 ##  absolute probability
 ##  
 ## ==========================================
-## For the field rmm$output$transfer$environment1$units
+## For the field rmm$prediction$transfer$environment1$units
 ##  The following entries appear accurate:
 ## 
 ##  absolute probability
 ##  
 ## ==========================================
-## For the field rmm$output$transfer$environment1$extrapolation
+## For the field rmm$prediction$transfer$environment1$extrapolation
 ##  The following entries are not similar to any suggested values, please verify that these are accurate:
 ## No clamping or extrapolation
 ##  ===================================

@@ -182,9 +182,15 @@ rmmAutofillEnvironment=function(rmm,env,transfer){
 #'
 #' @param rmm an rmm list
 #' @param e an ENMevaluation object
-#' @param selectionCriteria a character string indicating the model selection rules used to determine which model to choose
-#' @param optimalModelIndex a numeric value indicating the row number of the model chosen by the user
-#' (e.g., if you chose the model corresponding to row 5 in the results table, this number would be 5)
+#' @param selectionCriteria a character string indicating the model selection
+#' rules used (e.g., "first chose models with lowest MTP omission rate, then
+#' chose the model with highest average test AUC")
+#' @param optimalModelIndex a numeric value indicating the row number of the
+#' model chosen by the user
+#' (e.g., if you chose the model corresponding to row 5 in the results table,
+#' this number would be 5); multiple models
+#' may be selected in theory (for the purposes of model averaging, etc.), but
+#' selecting one is preferable to reduce confusion
 #'
 #' @examples
 #' #see vignette('rmm_workflow')
@@ -201,48 +207,48 @@ rmmAutofillEnvironment=function(rmm,env,transfer){
 #' @export
 
 rmmAutofillENMeval <- function(rmm, e, selectionCriteria, optimalModelIndex) {
-  rmm$model$algorithm <- e@algorithm
+  rmm$modelFit$algorithm <- e@algorithm
   rmm$data$occurrence$backgroundSampleSizeSet <- nrow(e@bg.pts)
-  rmm$model$partition$occurrenceSubsampling <- "k-fold cross validation"
-  rmm$model$partition$notes <- "background points also partitioned"
+  rmm$modelFit$partition$occurrenceSubsampling <- "k-fold cross validation"
+  rmm$modelFit$partition$notes <- "background points also partitioned"
   k <- length(unique(e@occ.grp))
-  rmm$model$partition$numberFolds <- k
+  rmm$modelFit$partition$numberFolds <- k
 
   if (e@partition.method == "randomkfold") {
-    rmm$model$partition$partitionSet <- "random"
-    rmm$model$partition$partitionRule <- "user-specified random partitions"
+    rmm$modelFit$partition$partitionSet <- "random"
+    rmm$modelFit$partition$partitionRule <- "user-specified random partitions"
   }
   if (e@partition.method == "jackknife") {
-    rmm$model$partition$partitionSet <- "jackknife"
-    rmm$model$partition$partitionRule <- "leave-one-out partitions (each occurrence locality receives its own bin)"
+    rmm$modelFit$partition$partitionSet <- "jackknife"
+    rmm$modelFit$partition$partitionRule <- "leave-one-out partitions (each occurrence locality receives its own bin)"
   }
   if (e@partition.method == "block") {
-    rmm$model$partition$partitionSet <- "spatial blocks"
-    rmm$model$partition$partitionRule <- "4 spatial partitions defined by latitude/longitude lines that ensure a balanced number of occurrence localities in each bin"
+    rmm$modelFit$partition$partitionSet <- "spatial blocks"
+    rmm$modelFit$partition$partitionRule <- "4 spatial partitions defined by latitude/longitude lines that ensure a balanced number of occurrence localities in each bin"
   }
 
   if (e@partition.method == "checkerboard1") {
-    rmm$model$partition$partitionSet <- "checkerboard blocks"
-    rmm$model$partition$partitionRule <- "2 spatial partitions in a checkerboard formation that subdivide geographic space equally but do not ensure a balanced number of occurrence localities in each bin"
+    rmm$modelFit$partition$partitionSet <- "checkerboard blocks"
+    rmm$modelFit$partition$partitionRule <- "2 spatial partitions in a checkerboard formation that subdivide geographic space equally but do not ensure a balanced number of occurrence localities in each bin"
   }
   if (e@partition.method == "checkerboard2") {
-    rmm$model$partition$partitionSet <- "spatial blocks"
-    rmm$model$partition$partitionRule <- "4 spatial partitions with two levels of spatial aggregation in a checkerboard formation that subdivide geographic space equally but do not ensure a balanced number of occurrence localities in each bin"
+    rmm$modelFit$partition$partitionSet <- "spatial blocks"
+    rmm$modelFit$partition$partitionRule <- "4 spatial partitions with two levels of spatial aggregation in a checkerboard formation that subdivide geographic space equally but do not ensure a balanced number of occurrence localities in each bin"
   }
 
-  if (grepl("maxnet", e@algorithm) == TRUE | grepl("Maxent", e@algorithm) == TRUE) {
-    rmm$model$maxent$featureSet <- as.character(e@results[optimalModelIndex, "features"])
-    rmm$model$maxent$regularizationMultiplierSet <- e@results[optimalModelIndex, "rm"]
+  if (grepl("maxnet", e@algorithm) == TRUE | grepl("maxent.jar", e@algorithm) == TRUE) {
+    rmm$modelFit$maxent$featureSet <- as.character(e@results[optimalModelIndex, "features"])
+    rmm$modelFit$maxent$regularizationMultiplierSet <- e@results[optimalModelIndex, "rm"]
   }
 
-  rmm$model$selectionRules <- selectionCriteria
-  rmm$model$finalModelSettings <- e@results[optimalModelIndex, "settings"]
-  rmm$performance$trainingDataStats$AUC <- e@results[optimalModelIndex, "full.AUC"]
-  rmm$performance$trainingDataStats$AIC <- e@results[optimalModelIndex, "AICc"]
+  rmm$modelFit$selectionRules <- selectionCriteria
+  rmm$modelFit$finalModelSettings <- e@results[optimalModelIndex, "settings"]
+  rmm$evaluation$trainingDataStats$AUC <- e@results[optimalModelIndex, "auc.train"]
+  rmm$evaluation$trainingDataStats$AIC <- e@results[optimalModelIndex, "AICc"]
 
-  rmm$performance$testingDataStats$AUC <- e@results[optimalModelIndex, "mean.AUC"]
-  rmm$performance$testingDataStats$omissionRate <- c(e@results[optimalModelIndex, "Mean.ORmin"], e@results[optimalModelIndex, "Mean.OR10"])
-  rmm$performance$testingDataStats$notes <- "omission rate thresholds are 1) minimum training presence, 2) 10% training presence"
+  rmm$evaluation$testingDataStats$AUC <- e@results[optimalModelIndex, "avg.test.AUC"]
+  rmm$evaluation$testingDataStats$omissionRate <- c(e@results[optimalModelIndex, "avg.test.orMTP"], e@results[optimalModelIndex, "avg.test.or10pct"])
+  rmm$evaluation$testingDataStats$notes <- "omission rate thresholds are 1) minimum training presence, 2) 10% training presence"
 
   return(rmm)
 }

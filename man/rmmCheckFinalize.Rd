@@ -4,7 +4,7 @@
 \alias{rmmCheckFinalize}
 \title{Run a final check of an rmm object}
 \usage{
-rmmCheckFinalize(rmm, family = c("base", "obligate"))
+rmmCheckFinalize(rmm, family = c("base"))
 }
 \arguments{
 \item{rmm}{a range model metadata list}
@@ -35,3 +35,4 @@ Other check: \code{\link{rmmCheckEmpty}},
 \author{
 Cory Merow <cory.merow@gmail.com>, Brian Maitner <bmaitner@gmail.com>,
 }
+\concept{check}
