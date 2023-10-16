@@ -2,7 +2,7 @@ Package: rangeModelMetadata
 Type: Package
 Title: Provides Templates for Metadata Files Associated with Species
         Range Models
-Version: 0.1.4
+Version: 0.1.5
 Authors@R: c(person('Cory','Merow',email='cory.merow@gmail.com',role=c('aut','cre')),
     person('Brian', 'Maitner',role=c('aut')),
     person('Hannah', 'Owens',role=c('aut')),
@@ -24,13 +24,13 @@ Description: Range Modeling Metadata Standards (RMMS) address three challenges:
   <https://github.com/ecospat/ecospat>.
 License: GPL (>= 3)
 Encoding: UTF-8
-RoxygenNote: 7.1.1
-Suggests: BIEN, biomod2, dismo, ecospat, googlesheets, knitr, rmarkdown
-Imports: dplyr, jsonlite, MASS, raster, rgbif, rgdal, rgeos, shiny, sp,
-        spatstat, spocc, spThin, utils
+RoxygenNote: 7.2.3
+Depends: R (>= 3.5.0)
+Suggests: dismo, googlesheets4, knitr, rmarkdown, rgbif, dplyr, sf
+Imports: shiny, spocc, utils, BIEN, terra
 VignetteBuilder: knitr
 NeedsCompilation: no
-Packaged: 2021-06-10 13:12:05 UTC; ctg
+Packaged: 2023-10-16 20:04:44 UTC; ctg
 Author: Cory Merow [aut, cre],
   Brian Maitner [aut],
   Hannah Owens [aut],
@@ -39,6 +39,5 @@ Author: Cory Merow [aut, cre],
   Rob Guralnik [aut],
   Damaris Zurrell [aut],
   Christian Koenig [aut]
-Depends: R (>= 3.5.0)
 Repository: CRAN
-Date/Publication: 2021-06-11 08:40:02 UTC
+Date/Publication: 2023-10-16 22:50:02 UTC

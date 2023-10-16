@@ -12,35 +12,33 @@
 
 <meta name="author" content="Cory Merow, Brian S. Maitner, Hannah L. Owens, Jamie Kass, Brian Enquist, Rob Guralnick" />
 
-<meta name="date" content="2021-06-10" />
+<meta name="date" content="2023-10-16" />
 
 <title>rangeModelMetadata Function Directory</title>
 
-<script>// Hide empty <a> tag within highlighted CodeBlock for screen reader accessibility (see https://github.com/jgm/pandoc/issues/6352#issuecomment-626106786) -->
-// v0.0.1
-// Written by JooYoung Seo (jooyoung@psu.edu) and Atsushi Yasumoto on June 1st, 2020.
-
-document.addEventListener('DOMContentLoaded', function() {
-  const codeList = document.getElementsByClassName("sourceCode");
-  for (var i = 0; i < codeList.length; i++) {
-    var linkList = codeList[i].getElementsByTagName('a');
-    for (var j = 0; j < linkList.length; j++) {
-      if (linkList[j].innerHTML === "") {
-        linkList[j].setAttribute('aria-hidden', 'true');
-      }
-    }
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
   }
 });
 </script>
 
 <style type="text/css">
-  code{white-space: pre-wrap;}
-  span.smallcaps{font-variant: small-caps;}
-  span.underline{text-decoration: underline;}
-  div.column{display: inline-block; vertical-align: top; width: 50%;}
-  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-  ul.task-list{list-style: none;}
-    </style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
 
 
 
@@ -240,42 +238,71 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 
 <h1 class="title toc-ignore">rangeModelMetadata Function Directory</h1>
-<h4 class="author">Cory Merow, Brian S. Maitner, Hannah L. Owens, Jamie Kass, Brian Enquist, Rob Guralnick</h4>
-<h4 class="date">2021-06-10</h4>
+<h4 class="author">Cory Merow, Brian S. Maitner, Hannah L. Owens, Jamie
+Kass, Brian Enquist, Rob Guralnick</h4>
+<h4 class="date">2023-10-16</h4>
 
 
 
-<p>The rangeModelMetadata package is designed to provide functionality for working with rangeModelMetadata (<code>rmm</code>) objects. These <code>rmm</code> objects are nested lists that hierarchically store data associated with species range/niche/distribution models. These objects are designed to be flexible to accomodate a wide variety of modeling frameworks while also making modelling decisions transparent.</p>
-<p>For full information on each function, see the associated help file.</p>
+<p>The rangeModelMetadata package is designed to provide functionality
+for working with rangeModelMetadata (<code>rmm</code>) objects. These
+<code>rmm</code> objects are nested lists that hierarchically store data
+associated with species range/niche/distribution models. These objects
+are designed to be flexible to accommodate a wide variety of modeling
+frameworks while also making modeling decisions transparent.</p>
+<p>For full information on each function, see the associated help
+file.</p>
 <div id="primary-functions" class="section level3">
 <h3>Primary functions</h3>
 <ul>
-<li><code>rmmTemplate</code> Creates an empty <code>rmm</code> object that can then be populated by the user. <!-- * `rmmCheckFull` Prints only the rmm fields that have been populated. --></li>
-<li><code>rmmCheckEmpty</code> Checks for empty values in the rmm object.</li>
-<li><code>rmmSuggest</code> Provides suggested values for rmm object fields.</li>
+<li><code>rmmTemplate</code> Creates an empty <code>rmm</code> object
+that can then be populated by the user.
+<!-- * `rmmCheckFull` Prints only the rmm fields that have been populated. --></li>
+<li><code>rmmCheckEmpty</code> Checks for empty values in the rmm
+object.</li>
+<li><code>rmmSuggest</code> Provides suggested values for rmm object
+fields.</li>
 </ul>
 </div>
 <div id="rmm-autofill-functions" class="section level3">
 <h3><code>rmm</code> Autofill functions</h3>
-<p>Functions to automatically populate the relevant fields in an <code>rmm</code> object.</p>
+<p>Functions to automatically populate the relevant fields in an
+<code>rmm</code> object.</p>
 <ul>
-<li><code>rmmAutofillPackageCitation</code> Takes in a vector of packages used by the user in a workflow and returns a vector of Bibtex citations that can be inserted into the rmm object.</li>
-<li><code>rmmAutofillEnvironment</code> Takes in environmental rasters used in modeling and adds relevant information to the <code>rmm</code> object.</li>
-<li><code>rmmAutofillENMeval</code> Populates <code>rmm</code> objects with data taken from an <code>ENMeval</code> object.</li>
-<li><code>rmmAutofillBIEN</code> Populates occurrence field in an <code>rmm</code> object with output from a <code>BIEN_occurrence_...</code> query.</li>
-<li><code>rmmAutofillspocc</code> Populates occurrence field in an <code>rmm</code> object with output from a spocc query.</li>
+<li><code>rmmAutofillPackageCitation</code> Takes in a vector of
+packages used by the user in a workflow and returns a vector of Bibtex
+citations that can be inserted into the rmm object.</li>
+<li><code>rmmAutofillEnvironment</code> Takes in environmental rasters
+used in modeling and adds relevant information to the <code>rmm</code>
+object.</li>
+<li><code>rmmAutofillENMeval</code> Populates <code>rmm</code> objects
+with data taken from an <code>ENMeval</code> object.</li>
+<li><code>rmmAutofillBIEN</code> Populates occurrence field in an
+<code>rmm</code> object with output from a
+<code>BIEN_occurrence_...</code> query.</li>
+<li><code>rmmAutofillspocc</code> Populates occurrence field in an
+<code>rmm</code> object with output from a spocc query.</li>
 </ul>
 </div>
 <div id="rmm-check-functions" class="section level3">
 <h3><code>rmm</code> Check functions</h3>
 <p>Functions to check for common errors in <code>rmm</code> objects.</p>
 <ul>
-<li><code>rmmCheckName</code> Identifies non-standard name fields in an rmm object.</li>
-<li><code>rmmCheckValue</code> Checks a subset of <code>rmm</code> values against commonly used values and returns information on possible errors.</li>
-<li><code>rmmCheckMissingNames</code> Identify obligate fields that are missing.</li>
-<li><code>rmmCheckEmpty</code> Identify empty fields in an <code>rmm</code> object and classify these into obligate and optional fields.</li>
-<li><code>rmmCleanNULLs</code> Remove NULL entries in an <code>rmm</code> object.</li>
-<li><code>rmmCheckFinalize</code> Run all checking functions (<code>rmmCheck...</code>) sequentially to detect non-standard and missing values and fields</li>
+<li><code>rmmCheckName</code> Identifies non-standard name fields in an
+rmm object.</li>
+<li><code>rmmCheckValue</code> Checks a subset of <code>rmm</code>
+values against commonly used values and returns information on possible
+errors.</li>
+<li><code>rmmCheckMissingNames</code> Identify obligate fields that are
+missing.</li>
+<li><code>rmmCheckEmpty</code> Identify empty fields in an
+<code>rmm</code> object and classify these into obligate and optional
+fields.</li>
+<li><code>rmmCleanNULLs</code> Remove NULL entries in an
+<code>rmm</code> object.</li>
+<li><code>rmmCheckFinalize</code> Run all checking functions
+(<code>rmmCheck...</code>) sequentially to detect non-standard and
+missing values and fields</li>
 </ul>
 </div>
 <div id="rmm-utilities" class="section level3">
@@ -283,8 +310,10 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <ul>
 <li><code>rmmFamilies</code> View entity family names.</li>
 <li><code>rmmDataDictionary</code> View the data dictionary.</li>
-<li><code>rmmToCSV</code> Converts the <code>rmm</code> object to a CSV file.</li>
-<li><code>csvTormm</code> Create <code>rmm</code> object From .csv File</li>
+<li><code>rmmToCSV</code> Converts the <code>rmm</code> object to a CSV
+file.</li>
+<li><code>csvTormm</code> Create <code>rmm</code> object From .csv
+File</li>
 </ul>
 </div>
 
